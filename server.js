@@ -4,7 +4,6 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-require('dotenv').config();
 const path = require("path")
 const app = express();
 
@@ -46,6 +45,7 @@ app.use('/api', collectionsRoutes);
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
+if (process.env.NODE_ENV !== 'production') { require('dotenv').config() }
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`API is running on port ${port}`);
