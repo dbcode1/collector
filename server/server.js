@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+require("dotenv").config()
 const path = require("path")
 const app = express();
 
@@ -34,7 +34,6 @@ app.use(bodyParser.json());
 if ((process.env.NODE_ENV = 'development')) {
     app.use(cors({ origin: `http://localhost:3000` }));
 }
-app.use(express.static(path.join(__dirname, "client", "build")))
 // middleware
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
@@ -42,10 +41,7 @@ app.use('/api', artRoutes);
 app.use('/api', cardRoutes);
 app.use('/api', collectionsRoutes);
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
-if (process.env.NODE_ENV !== 'production') { require('dotenv').config() }
+
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`API is running on port ${port}`);

@@ -104,8 +104,9 @@ exports.signin = (req, res) => {
       });
   });
 };
-
+console.log(process.env.JWT_SECRET)
 exports.requireSignin = expressJwt({
+    
     secret: process.env.JWT_SECRET,
     algorithms: ['HS256']
 })
