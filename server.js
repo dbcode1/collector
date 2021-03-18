@@ -35,18 +35,7 @@ app.use(bodyParser.json());
 if ((process.env.NODE_ENV = 'development')) {
     app.use(cors({ origin: `http://localhost:3000` }));
 }
-
-if (process.env.NODE_ENV === 'production') {
-    // Set static folder
-    app.use(express.static(path.join(__dirname, "client", "build")))
-  
-    app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-}
-
-
-//app.use(express.static(path.join(__dirname, "client", "build")))
+app.use(express.static(path.join(__dirname, "client", "build")))
 // middleware
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
@@ -54,6 +43,9 @@ app.use('/api', artRoutes);
 app.use('/api', cardRoutes);
 app.use('/api', collectionsRoutes);
 
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`API is running on port ${port}`);
