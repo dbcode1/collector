@@ -10,9 +10,6 @@ router.post('/account-activation', accountActivation)
 router.post('/signup', userSignupValidator, runValidation, signup)
 router.post('/signin', userSigninValidator, runValidation, signin)
 // forgot password
-router.put('/forgot-password', forgotPasswordValidator, runValidation, forgotPassword)
-
-router.put('/forgot-password', forgotPasswordValidator, runValidation, forgotPassword)
 router.put('/reset-password', resetPasswordValidator, runValidation, resetPassword)
 
 
