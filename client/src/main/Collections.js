@@ -18,6 +18,12 @@ import { WaveTopBottomLoading } from 'react-loadingg'
 const Container = () => <WaveTopBottomLoading color="#03cffc"/>;
 const { inRange, _ } = require('lodash');
 
+const breakpointColumnsObj = {
+  default: 4,
+  1200: 3,
+  900: 2,
+  675: 1
+};
 
 const Trash = styled(Delete)`
   color: black;
@@ -30,32 +36,28 @@ const Trash = styled(Delete)`
     color: cyan;
   }
 `
-
 const SelectedImage = styled.img`
-  width: auto;;
-  max-height: 600px;
-  display: block;
-  margin: 0 auto;
-  padding-bottom: 20px;
-`
-
-const Collapse = styled(CloseCircle)`
-  width: 30px;
+  width: 100%;
+  cursor: pointer;
 `
 
 const CollectionCard = styled(DataCard)`
   width: 90%;
-  margin: 0 auto 15px auto;
+  margin: 15px auto 15px auto;
   #inline-wrap {
    padding-bottom: 10px;
    max-width: 100%;
-   width: 100%;
+   width: 100%; //
   }
   button { 
     border: none;
     background: white;
     
   }
+`
+
+const CollectionWrapper = styled.div`
+  margin-top: 125px;
 `
 
 const Collections = (props) => {
@@ -176,9 +178,7 @@ const Collections = (props) => {
 
         <Fade show={show}>
          <ToastContainer />
-         <h1 className="p-5 text-center">{user.name}'s Collections</h1>
-         
-          <Fragment>
+          <CollectionWrapper>
             { values.collections.map(collection => {
               return (
                 <CollectionCard className="collection-card" >
@@ -190,7 +190,7 @@ const Collections = (props) => {
                     <Container key={Date.now()} width={500} height={500} color="#03cffc" />
                   }
                   <Masonry
-                    breakpointCols={4}
+                    breakpointCols={breakpointColumnsObj}
                     className="my-masonry-grid"
                     columnClassName="my-masonry-grid_column"
                   >
@@ -200,12 +200,13 @@ const Collections = (props) => {
                           <ReactModal 
                             isOpen={values.expanded}
                             className="Modal"
+                            ariaHideApp={false}
                             overlayClassName="Overlay"
                           >
-                            <Collapse onClick={(e) => collapse(e)}/>
-                            <SelectedImage id="selected-image" src={values.selectedImg}/>
+                            {/* <Collapse onClick={(e) => collapse(e)}/> */}
+                            <SelectedImage id="selected-image" onClick={expandCard} src={values.selectedImg}/>
                           </ReactModal>
-                          <Card key={i} values={values} item={item} >
+                          <Card key={i} values={values} item={item} expandCard={expandCard} >
                           </Card>
                         </Fragment>
                       )
@@ -214,7 +215,7 @@ const Collections = (props) => {
                 </CollectionCard>
               )
             })}
-          </Fragment>
+          </CollectionWrapper>
         </Fade>
       </Layout>
     )

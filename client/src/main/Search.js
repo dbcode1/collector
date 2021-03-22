@@ -1,4 +1,4 @@
-import React, {useEffect, useState, Fragment, useCallback} from 'react'
+import React, {useEffect, useState, useRef, Fragment, useCallback} from 'react'
 import Layout from '../main/Layout'
 import axios from 'axios'
 import { isAuth, getCookie, signout, removeCookie, removeLocalStorage} from '../auth/helpers'
@@ -18,6 +18,7 @@ const Search = ({history, match }) => {
     artData: [],
     loading: true,
     searchTerm: ''
+
   })
 
   const [titles, setTitles] = useState('')
@@ -36,16 +37,19 @@ const Search = ({history, match }) => {
   const user = isAuth()
 
   const onChangeValue = (term) => {
-    console.log('onchange')
+    
 		setValues({ ...values, searchTerm: term });
+    console.log('onchange', values.searchTerm)
 	};
 
   const onSubmitValue = async (e) => {
 		e.preventDefault();
-    console.log('onsubmit')
+    console.log('onsubmit', values.searchTerm)
 		getArt(values.searchTerm); 
     getCollectionTitles()
 	};
+  
+ 
 
   const getCollectionTitles = async () => {
     // get user id send with request

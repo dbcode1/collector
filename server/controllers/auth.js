@@ -26,9 +26,8 @@ exports.signup = (req, res) => {
       subject: "ACCOUNT ACTIVATION LINK",
       html: `
                 <h1>Please use the following link to activate your account</h1>
-                <p>${process.env.CLIENT_URL}/auth/activate/${token}</p>                <hr />
+                 <a href="${process.env.CLIENT_URL}/auth/activate/${token}">Activate</a>
                 <p>This email may contain sensitive information</p>
-                <p>http://localhost:3000</p>
             `,
     };
  
@@ -76,7 +75,7 @@ exports.accountActivation = (req, res) => {
 exports.signin = (req, res) => {
   const { email, password } = req.body;
   
-  
+  console.log(email, password)
   // check if user exist
   User.findOne({ email }).exec((err, user) => {
      
@@ -131,7 +130,6 @@ exports.adminMiddleware = (req, res, next) => {
 
 exports.forgotPassword = (req, res) => {
     const {email} = req.body
-
     User.findOne({email}, (err, user) => {
         if(err || !user) {
             return res.status(400).json({
@@ -146,15 +144,15 @@ exports.forgotPassword = (req, res) => {
           );
        
           const emailData = {
-            from: "dmbrusky@gmail.com", // MAKE SURE THIS EMAIL IS YOUR GMAIL FOR WHICH YOU GENERATED APP PASSWORD
-            to: email, // WHO SHOULD BE RECEIVING THIS EMAIL? IT SHOULD BE THE USER EMAIL (VALID EMAIL ADDRESS) WHO IS TRYING TO SIGNUP
+            from: "dmbrusky@gmail.com", 
+            to: email, 
             subject: "PASSWORD RESET LINK",
             html: `
                       <h1>Please use the following link to reset your password</h1>
-                      <a href="http://localhost:3000/auth/password/reset/${token}">http://localhost:8000/auth/activate/${token}</a>
+                      <a href="${process.env.CLIENT_URL}/auth/password/reset/${token}">Activate</a>
                       <hr />
                       <p>This email may contain sensitive information</p>
-                      <p>http://localhost:3000</p>
+        
                   `,
           };
 
