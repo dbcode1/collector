@@ -50,9 +50,9 @@ text-align: center;
 }
 `
 
-window.onload=function(){
-  document.getElementById("input").click();
-};
+// window.onload=function(){
+//   document.getElementById("input").click();
+// };
 
 const SearchBar = ({change, submit, inputTitle, button}) => {
   const [showNav, setShowNav] = useState(true)

@@ -8,14 +8,14 @@ exports.sendEmailWithNodemailer = (req, res, emailData) => {
     secure: false,
     requireTLS: true,
     auth: {
-      user: "dmbrusky@gmail.com", 
-      pass: "wbrmjekiwlnzvuqx", // MAKE SURE THIS PASSWORD IS YOUR GMAIL APP PASSWORD WHICH YOU GENERATED EARLIER
+      user: "dmbrusky@gmail.com",
+      pass: "gxefsivjjkxnvxmf", 
     },
     tls: {
       ciphers: "SSLv3",
     },
   });
- 
+
   return transporter
     .sendMail(emailData)
     .then((info) => {
