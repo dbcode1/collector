@@ -47,6 +47,7 @@ const ArtCards = ({data, setValues, titles, values}) => {
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column">
+        
           {data.map((item, i) => {
             if(item){
               return (

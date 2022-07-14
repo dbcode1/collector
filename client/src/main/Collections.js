@@ -7,11 +7,11 @@ import { isAuth, getCookie } from "../auth/helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import jwt from "jsonwebtoken";
+import "dotenv/config";
 import Fade from "../Fade";
 import styled from "styled-components";
 import DataCard from "../styledComponents/DataCard";
 import { Delete } from "@styled-icons/material-outlined/Delete";
-import { CloseCircle } from "@styled-icons/ionicons-outline/CloseCircle";
 import ReactModal from "react-modal";
 import Masonry from "react-masonry-css";
 import { WaveTopBottomLoading } from "react-loadingg";
@@ -126,7 +126,7 @@ const Collections = (props) => {
     const user = isAuth()._id;
     await axios({
       method: "GET",
-      url: `http://localhost:8000/api/collections`,
+      url: `${process.env.REACT_APP_API}/collections`,
       params: {
         id: user,
       },
@@ -150,7 +150,7 @@ const Collections = (props) => {
       console.log("title", title);
       axios({
         method: "DELETE",
-        url: `http://localhost:8000/api/collections/delete`,
+        url: `${process.env.REACT_APP_API}/collections/delete`,
         data: {
           title,
           id: user._id,

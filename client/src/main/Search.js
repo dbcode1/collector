@@ -5,6 +5,7 @@ import React, {
   Fragment,
   useCallback,
 } from "react";
+import "dotenv/config";
 import Layout from "../main/Layout";
 import axios from "axios";
 import {
@@ -42,6 +43,18 @@ const Search = ({ history, match }) => {
     setShow((show) => !show);
   }, []);
 
+  useEffect(() => {
+    // TODO set artData to localStorage entries
+    const storedData = JSON.parse(localStorage.getItem("entries"));
+    if (!storedData) {
+      setValues({ ...values, artData: [] });
+    } else {
+      // as of now get mapping error
+      //setValues({ ...values, artData: storedData});
+    }
+    console.log("useEffect");
+  }, []);
+
   const token = getCookie("token");
   const { exp } = jwt.decode(token);
   const user = isAuth();
@@ -61,10 +74,10 @@ const Search = ({ history, match }) => {
   const getCollectionTitles = async () => {
     // get user id send with request
     const user = isAuth()._id;
-  
+
     await axios({
       method: "GET",
-      url: `http://localhost:8000/api/collections/titles`,
+      url: `${process.env.REACT_APP_API}/collections/titles`,
       params: {
         id: user,
       },
@@ -80,17 +93,23 @@ const Search = ({ history, match }) => {
   const getArt = async (searchTerm) => {
     setValues({ ...values, loading: true });
     console.log("get art", searchTerm);
+
     try {
       const callSearchArt = await axios({
         method: "GET",
-        url: "http://localhost:8000/api/search",
+        url: `${process.env.REACT_APP_API}/search`,
         params: { q: searchTerm },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      
-      setValues({ ...values, artData: callSearchArt.data, loading: false });
+
+      // save data to localStorage
+      localStorage.setItem("entries", JSON.stringify(callSearchArt.data));
+
+      const storedData = JSON.parse(localStorage.getItem("entries"));
+
+      setValues({ ...values, artData: storedData });
     } catch (error) {
       console.log("GET ART ERROR", error.response);
       toast.error(error.response.data.message);
